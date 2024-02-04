@@ -1,0 +1,25 @@
+def caesar_cipher(string, shift)
+  space = (" ")
+  lower_alphabet = ('a'..'z').to_a
+  upper_alphabet = ('A'..'Z').to_a
+  string.split("").map do |letter|
+    if lower_alphabet.include?(letter)
+      index = lower_alphabet.index(letter)
+      index += shift
+      index = index % 26
+      print lower_alphabet[index]
+    end
+    if upper_alphabet.include?(letter)
+    index = upper_alphabet.index(letter)
+    index += shift
+    index = index % 26
+    print upper_alphabet[index]
+    end
+    if letter == space
+      print letter
+    end
+  end
+  return
+end
+
+print caesar_cipher("A Quick Brown Fox", 5)
