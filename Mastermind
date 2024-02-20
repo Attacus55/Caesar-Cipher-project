@@ -1,0 +1,99 @@
+class ComputerMastermind
+  def computer_colors
+    colors = ["red", "orange", "yellow","green", "blue", "violet"]
+    index = rand(5)
+    return colors[index]
+  end
+
+  def initialize()
+    @code_colors = [computer_colors, computer_colors, computer_colors, computer_colors]
+    @user_colors
+  end
+
+  def player_guess()
+    @user_colors = [gets.chomp, gets.chomp, gets.chomp, gets.chomp]
+  end
+
+  def compare()
+    feedback = ""
+    code_colors_compare = Marshal.load(Marshal.dump(@code_colors))
+    user_colors_compare = Marshal.load(Marshal.dump(@user_colors))
+    for i in 0..3
+      if user_colors_compare[i] == code_colors_compare[i]
+        user_colors_compare[i] = "x"
+        code_colors_compare[i] = " "
+        feedback += "red marker, "
+      end
+    end
+
+    for i in 0..3
+      if code_colors_compare.include?(user_colors_compare[i])
+        code_color_index = code_colors_compare.find_index(user_colors_compare[i])
+        user_colors_compare[i] = "x"
+        code_colors_compare[code_color_index] = " "
+        feedback += "white marker, "
+      end
+    end
+    puts feedback
+  end
+
+  def play_game()
+    until @user_colors == @code_colors
+      puts "\n make your best guess "
+      player_guess()
+      compare()
+    end
+    puts "YOU WIN!"
+  end
+end
+
+class PlayerMastermind
+  def player_colors
+    colors = ["red", "orange", "yellow", "green", "blue", "violet"]
+    index = rand(5)
+    return colors[index]  
+  end
+
+  def initialize()
+    @computer_guess =
+    @user_set = [gets.chomp, gets.chomp, gets.chomp, gets.chomp]
+    @iterations = 0
+    @answer = ["", "", "", ""]
+  end
+  
+  def computer_guess()
+    @computer_guess = [player_colors, player_colors, player_colors, player_colors]
+  end
+
+  def compare()
+    feedback = ""
+    @iterations += 1 
+    for i in 0..3
+      if @user_set[i] == @computer_guess[i]
+        @answer[i] = @computer_guess[i]
+      end
+    end
+    puts "computer hast tried #{@iterations} number of times."
+  end
+
+  def play_game()
+    until @answer == @user_set
+      puts "computer keeps trying"
+      computer_guess()
+      compare()
+    end
+    puts "The computer has guessed the code, #{@answer}."
+  end
+end
+
+puts "choose 1 for player sets, choose 2 for computer sets"
+player_choice = gets.chomp
+if player_choice == "1"
+  gamer = PlayerMastermind.new()
+  gamer.play_game()
+
+elsif player_choice == "2"
+  gaming = ComputerMastermind.new()
+  gaming.play_game
+end
+    
